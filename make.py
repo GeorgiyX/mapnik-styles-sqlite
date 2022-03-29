@@ -30,7 +30,7 @@ def clean():
   for f in glob("build/*.html"): unlink(f)
 
 def build(style):
-  shutil.copytree(style, "build")
+  shutil.copytree(join(config["styles_dir"], style), "build")
   #copy_tree(style, "build")
 
   #remove the mml templates
@@ -67,11 +67,10 @@ def build(style):
 def install(style):
   assert isdir(config["path"]), "Config.path does not point to your mapbox projects directory; please fix and re-run"
   sanitized_name = re.sub("[^\w]", "", config["name"][style])
-  output_dir = join(config["path"], sanitized_name)
-  print "installing to %s" % output_dir
-  copy_tree("build", output_dir)
+  print "installing to %s" % config["path"]
 
-  os.system("cd " + output_dir + "; carto project.mml > mapnik.xml")
+  os.system("cd build; carto project.mml > %s.xml" % sanitized_name)
+  os.system("mv build/%s.xml %s" % (sanitized_name, config["path"]))
 
 if __name__ == "__main__":
     for style in config["name"]:

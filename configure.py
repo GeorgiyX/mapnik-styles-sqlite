@@ -5,9 +5,12 @@ from os import path, getcwd
 from collections import defaultdict
 import os
 
+
 config = defaultdict(defaultdict)
 
 config["importer"] = "spatialite"
+
+config["styles_dir"] = os.environ["STYLES_DIR"]
 
 # The name given to the style. This is the name it will have in the TileMill
 # project list, and a sanitized version will be used as the directory name
@@ -24,13 +27,13 @@ config["name"] = { "styles/osm-bright": "OSM Bright",
 
 # The absolute path to your MapBox projects directory. You should 
 # not need to change this unless you have configured TileMill specially
-config["path"] = path.expanduser("./install")
+config["path"] = os.environ["INSTALL_DIR"]
 if not os.path.exists(config["path"]):
     os.makedirs(config["path"])
 
 # SQLite connection setup 
 config["sqlite"]["metadata"] = "mapnik_metadata"
-config["sqlite"]["file"]     = "country/mapnik.sqlite"
+config["sqlite"]["file"] = os.path.join(os.environ["DB_DIR"], os.environ["DB_NAME"])
 config["sqlite"]["initdb"] = "PRAGMA cache_size = -20480;" # SELECT load_extension('mod_spatialite');"
 config["sqlite"]["geometry_field"] = "geometry"
 config["sqlite"]["wkb_format"] = "generic"
@@ -52,5 +55,5 @@ config["sqlite"]["type"] = "sqlite"
 # - http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
 # - http://data.openstreetmapdata.com/land-polygons-split-3857.zip
 
-config["land-high"] = "global/land-polygons-split-3857/land_polygons.shp"
-config["land-low"] = "global/simplified-land-polygons-complete-3857/simplified_land_polygons.shp"
+config["land-high"] = os.path.join(os.environ["DB_DIR"], "land_polygons.shp")
+config["land-low"] = os.path.join(os.environ["DB_DIR"], "simplified_land_polygons.shp")
