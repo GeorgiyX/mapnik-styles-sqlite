@@ -37,7 +37,6 @@ config["sqlite"]["file"] = os.path.join(os.environ["DB_DIR"], os.environ["DB_NAM
 config["sqlite"]["initdb"] = "PRAGMA cache_size = -20480;" # SELECT load_extension('mod_spatialite');"
 config["sqlite"]["geometry_field"] = "geometry"
 config["sqlite"]["wkb_format"] = "generic"
-config["sqlite"]["wkb_format"] = "twkb"
 config["sqlite"]["use_spatial_index"] = "true"
 config["sqlite"]["type"] = "sqlite"
 
